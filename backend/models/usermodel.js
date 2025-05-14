@@ -9,26 +9,34 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true, 
+      required: true,
       unique: true,
       trim: true,
     },
     password: {
       type: String,
-      required: true, 
-     
+      required: true,
+      minlength: 4,
     },
     country: {
       type: String,
-      required: true, 
+      required: true,
       trim: true,
     },
+    // References to the user's projects (not embedded)
+    projects: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+      },
+    ],
   },
   {
-    timestamps: true, 
+    timestamps: true, // Adds createdAt and updatedAt
   }
 );
 
 const User = mongoose.model('User', userSchema);
 
 export default User;
+

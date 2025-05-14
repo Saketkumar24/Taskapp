@@ -1,14 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import Navbar from "../Components/Navbar";
 
-const Signup = () => {
+
+const Login = () => {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
-        name: "",
-        country: "",
     });
 
     const navigate = useNavigate();
@@ -24,9 +22,11 @@ const Signup = () => {
                 throw new Error("Password should have atleast 4 characters");
 
             }
-            await axios.post("http://localhost:3001/api/users/register", formData);
-            alert("Registered successfully!");
-            navigate("/login");
+            const res = await axios.post("http://localhost:3001/api/users/login", formData);
+            alert("login successfully!");
+
+            localStorage.setItem("token", res.data.token);
+            navigate("/dashboard");
         } catch (err) {
             console.error(err);
             err.response ? alert(err.response.data.message) : alert(err.message)
@@ -55,14 +55,7 @@ const Signup = () => {
                     <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">Create Your Account</h2>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder="Your Name"
-                            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            onChange={handleChange}
-                            required
-                        />
+
                         <input
                             type="email"
                             name="email"
@@ -79,26 +72,19 @@ const Signup = () => {
                             onChange={handleChange}
                             required
                         />
-                        <input
-                            type="text"
-                            name="country"
-                            placeholder="Your Country"
-                            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            onChange={handleChange}
-                            required
-                        />
+
                         <button
                             type="submit"
                             className="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition-all font-semibold"
                         >
-                            Sign Up
+                            Sign In
                         </button>
                     </form>
 
                     <p className="text-center mt-4 text-sm text-gray-600">
-                        Already have an account?{" "}
-                        <Link to="/login" className="text-indigo-600 font-semibold hover:underline">
-                            Login
+                        Don't have an account?{" "}
+                        <Link to="/register" className="text-indigo-600 font-semibold hover:underline">
+                            Register
                         </Link>
                     </p>
                 </div>
@@ -107,4 +93,4 @@ const Signup = () => {
     );
 };
 
-export default Signup;
+export default Login;
