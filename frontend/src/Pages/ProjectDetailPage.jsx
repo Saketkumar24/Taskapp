@@ -15,7 +15,6 @@ const ProjectDetails = () => {
         status: 'pending',
     });
     const [reload, setReload] = useState(false);
-
     const token = localStorage.getItem('token');
 
     // Fetch project details

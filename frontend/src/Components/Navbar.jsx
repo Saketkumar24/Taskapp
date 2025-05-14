@@ -1,14 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { UserPlus, User } from "lucide-react";
 import { useEffect } from "react";
-
 const Navbar = () => {
     const navigate = useNavigate();
 
     const isLoggedIn = !!localStorage.getItem("token");
 
     useEffect(() => {
-        // If user is logged in and on root, redirect to /projects
         if (isLoggedIn && window.location.pathname === "/register") {
             navigate("/dashboard");
         }

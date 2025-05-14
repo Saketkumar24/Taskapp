@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PlusCircle, UserCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
   const [user, setUser] = useState(null); // 🧑 User state
