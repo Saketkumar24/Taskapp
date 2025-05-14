@@ -65,7 +65,6 @@ export const updateTaskStatus = async (req, res) => {
   try {
     const { projectId, taskId } = req.params;
     const { status } = req.body;
-    console.log("hello")
 
     const validStatuses = ['Not Started', 'In Progress', 'Completed'];
     if (!validStatuses.includes(status)) {
@@ -137,6 +136,28 @@ export const deleteTask = async (req, res) => {
     res.status(200).json({ message: 'Task deleted successfully' });
   } catch (error) {
     console.error('Error deleting task:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const addTask = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+    const { title, description } = req.body;
+    console.log(req.body)
+
+
+    const project = await Project.findOne({ _id: projectId, user: req.user._id });
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    project.tasks.push({ title, description, status: 'pending' });
+    await project.save();
+
+    res.status(200).json({ message: 'Task added successfully', project });
+  } catch (error) {
+    console.error('Error adding task:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };
