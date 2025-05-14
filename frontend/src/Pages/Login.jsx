@@ -22,7 +22,7 @@ const Login = () => {
                 throw new Error("Password should have atleast 4 characters");
 
             }
-            const res = await axios.post(`${import.meta.env.VITE_URI}/users/login`, formData);
+            const res = await axios.post(`${import.meta.env.VITE_URI}/api/users/login`, formData);
             alert("login successfully!");
 
             localStorage.setItem("token", res.data.token);

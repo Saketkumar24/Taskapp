@@ -20,7 +20,7 @@ const ProjectDetails = () => {
     useEffect(() => {
         const fetchProject = async () => {
             try {
-                const res = await axios.get(`${import.meta.env.VITE_URI}/projects/${projectId}`, {
+                const res = await axios.get(`${import.meta.env.VITE_URI}/api/projects/${projectId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -39,7 +39,7 @@ const ProjectDetails = () => {
 
     const handleDeleteProject = async () => {
         try {
-            await axios.delete(`${import.meta.env.VITE_URI}/projects/${projectId}`, {
+            await axios.delete(`${import.meta.env.VITE_URI}/api/projects/${projectId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -55,7 +55,7 @@ const ProjectDetails = () => {
         try {
             setTaskLoading(true);
             const res = await axios.patch(
-                `${import.meta.env.VITE_URI}/projects/${projectId}/task/${taskId}/status`,
+                `${import.meta.env.VITE_URI}/api/projects/${projectId}/task/${taskId}/status`,
                 { status: newStatus }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -80,7 +80,7 @@ const ProjectDetails = () => {
 
     const deleteTask = async (taskId) => {
         try {
-            await axios.delete(`${import.meta.env.VITE_URI}/projects/${projectId}/task/${taskId}`, {
+            await axios.delete(`${import.meta.env.VITE_URI}/api/projects/${projectId}/task/${taskId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -105,7 +105,7 @@ const ProjectDetails = () => {
 
         try {
             const res = await axios.post(
-                `${import.meta.env.VITE_URI}/projects/${projectId}/addtask`,
+                `${import.meta.env.VITE_URI}/api/projects/${projectId}/addtask`,
                 newTask,
                 {
                     headers: {

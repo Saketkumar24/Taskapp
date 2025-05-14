@@ -39,7 +39,7 @@ const CreateProject = () => {
 
         try {
             const response = await axios.post(
-                `${import.meta.env.VITE_URI}/projects/create`,
+                `${import.meta.env.VITE_URI}/api/projects/create`,
                 { name: projectName, tasks },
                 {
                     headers: {

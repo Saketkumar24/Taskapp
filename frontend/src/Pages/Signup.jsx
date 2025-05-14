@@ -24,7 +24,7 @@ const Signup = () => {
                 throw new Error("Password should have atleast 4 characters");
 
             }
-            await axios.post(`${import.meta.env.VITE_URI}/users/register`, formData);
+            await axios.post(`${import.meta.env.VITE_URI}/api/users/register`, formData);
             alert("Registered successfully!");
             navigate("/login");
         } catch (err) {
