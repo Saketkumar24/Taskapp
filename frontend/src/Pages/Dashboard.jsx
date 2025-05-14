@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { PlusCircle } from 'lucide-react';
+import { PlusCircle, UserCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
+  const [user, setUser] = useState(null); // 🧑 User state
   const navigate = useNavigate();
+
+  const token = localStorage.getItem('token');
 
   const fetchProjects = async () => {
     try {
@@ -12,7 +15,7 @@ const Dashboard = () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // Adjust if token is stored differently
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -25,8 +28,26 @@ const Dashboard = () => {
     }
   };
 
+  const fetchUser = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/api/users/me', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) throw new Error('Failed to fetch user');
+
+      const data = await response.json();
+      setUser(data);
+    } catch (err) {
+      console.error('Error fetching user:', err.message);
+    }
+  };
+
   useEffect(() => {
     fetchProjects();
+    fetchUser();
   }, []);
 
   const handleAddProject = () => {
@@ -36,6 +57,20 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-200 p-6">
       <div className="max-w-7xl mx-auto">
+
+        {/* 👤 User Card */}
+        {user && (
+          <div className="bg-white rounded-xl shadow-md p-6 mb-8 flex items-center gap-6">
+            <UserCircle2 className="w-16 h-16 text-indigo-600" />
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800">{user.name}</h2>
+              <p className="text-gray-600">Email: {user.email}</p>
+              <p className="text-gray-600">Country: {user.country || 'N/A'}</p>
+            </div>
+          </div>
+        )}
+
+        {/* 🔧 Projects Header */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-indigo-700">Your Projects</h1>
           <button
@@ -47,6 +82,7 @@ const Dashboard = () => {
           </button>
         </div>
 
+        {/* 🗂 Project Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {projects.map((project) => (
             <div

@@ -4,7 +4,7 @@ import './App.css'
 import { Routes } from "react-router-dom"
 import Signup from "./Pages/Signup.jsx"
 import { Route } from "react-router-dom"
-import Login from './Pages/login.jsx'
+import Login from './Pages/Login.jsx'
 import Dashboard from './Pages/Dashboard.jsx'
 import ProjectsPage from './Pages/CreateProject.jsx'
 import ProjectDetailPage from './Pages/ProjectDetailPage.jsx'

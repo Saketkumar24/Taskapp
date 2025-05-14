@@ -12,8 +12,9 @@ const ProjectDetails = () => {
     const [newTask, setNewTask] = useState({
         title: '',
         description: '',
-        status: 'Not Started',
+        status: 'pending',
     });
+    const [reload, setReload] = useState(false);
 
     const token = localStorage.getItem('token');
 
@@ -36,7 +37,7 @@ const ProjectDetails = () => {
         };
 
         fetchProject();
-    }, [projectId]);
+    }, [projectId, reload]);
 
     const handleDeleteProject = async () => {
         try {
@@ -106,7 +107,7 @@ const ProjectDetails = () => {
 
         try {
             const res = await axios.post(
-                `http://localhost:3001/api/projects/${projectId}/tasks`,
+                `http://localhost:3001/api/projects/${projectId}/addtask`,
                 newTask,
                 {
                     headers: {
@@ -115,11 +116,11 @@ const ProjectDetails = () => {
                 }
             );
             // Update the project state to include the new task
-            setProject((prev) => ({
-                ...prev,
-                tasks: [...prev.tasks, res.data.task],
-            }));
-            setNewTask({ title: '', description: '', status: 'Not Started' }); // Reset the form
+            tasks: [...(project.tasks || []), res.data.task],
+
+                setNewTask({ title: '', description: '', status: 'Not Started' });
+            setReload(!reload);
+            navigate(`/project/${projectId}`); // Reset the form
         } catch (err) {
             setError('Failed to add task.');
             console.error('Failed to add task:', err);
@@ -151,7 +152,7 @@ const ProjectDetails = () => {
 
                 {error && <p className="text-red-500 mb-4">{error}</p>}
 
-                {project.tasks.length === 0 ? (
+                {!project.tasks || project.tasks.length === 0 ? (
                     <p className="text-gray-600">No tasks in this project yet.</p>
                 ) : (
                     <div className="space-y-6">
@@ -164,7 +165,7 @@ const ProjectDetails = () => {
                                     <h3 className="text-xl font-semibold text-indigo-600 mb-1">
                                         {index + 1}. {task.title}
                                     </h3>
-                                    <p className="text-gray-700 mb-1">{task.description}</p>
+                                    <p className="text-gray-700 mb-1 break-words whitespace-pre-wrap overflow-y-hidden">{task.description}</p>
                                     <p className="text-sm text-gray-500 mb-1">
                                         Created: {new Date(task.createdAt).toLocaleDateString()}
                                     </p>
@@ -172,7 +173,7 @@ const ProjectDetails = () => {
                                         Completed:{' '}
                                         {task.completedAt
                                             ? new Date(task.completedAt).toLocaleDateString()
-                                            : 'Not completed'}
+                                            : 'pending'}
                                     </p>
 
                                     <select
@@ -180,7 +181,7 @@ const ProjectDetails = () => {
                                         onChange={(e) => updateTaskStatus(task._id, e.target.value)}
                                         className="border px-3 py-1 rounded focus:ring-indigo-400"
                                     >
-                                        <option value="Not Started">Not Started</option>
+                                        <option value="pending">Pending</option>
                                         <option value="In Progress">In Progress</option>
                                         <option value="Completed">Completed</option>
                                     </select>
@@ -235,7 +236,7 @@ const ProjectDetails = () => {
                                 onChange={handleChange}
                                 className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                             >
-                                <option value="Not Started">Not Started</option>
+                                <option value="pending">Pending</option>
                                 <option value="In Progress">In Progress</option>
                                 <option value="Completed">Completed</option>
                             </select>

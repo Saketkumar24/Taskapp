@@ -22,18 +22,13 @@ const Navbar = () => {
     return (
         <nav className="top-0 left-0 right-0 bg-blue-600 text-white px-4 py-4 shadow-md z-50">
             <div className="max-w-6xl mx-auto flex justify-between items-center">
-                <Link to="/" className="text-xl font-bold hover:text-white">
+                <Link to="/dashboard" className="text-xl font-bold hover:text-white">
                     TaskFlow
                 </Link>
 
                 <div className="space-x-4 flex items-center">
                     {isLoggedIn ? (
                         <>
-                            <Link to="/dashboard" className="hover:underline">Projects</Link>
-                            <Link to="/profile" className="hover:underline flex items-center">
-                                <User className="w-5 h-5 mr-1" />
-                                Profile
-                            </Link>
                             <button
                                 onClick={handleLogout}
                                 className="bg-red-500 px-3 py-1 rounded hover:bg-red-600"
