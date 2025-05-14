@@ -36,7 +36,6 @@ const Signup = () => {
     return (
         <>
             <div className="pt-20 min-h-screen flex flex-col md:flex-row items-center justify-center bg-gradient-to-r from-blue-500 to-violet-300 px-6">
-                {/* Left Content */}
                 <div className="md:w-1/2 text-white p-6 md:p-12">
                     <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Organize Today, Achieve Tomorrow</h1>
                     <p className="text-lg md:text-xl mb-6">
@@ -50,7 +49,6 @@ const Signup = () => {
                     </ul>
                 </div>
 
-                {/* Right Form */}
                 <div className="md:w-1/2 bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-auto">
                     <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">Create Your Account</h2>
 
