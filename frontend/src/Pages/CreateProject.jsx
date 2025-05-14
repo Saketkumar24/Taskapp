@@ -39,11 +39,11 @@ const CreateProject = () => {
 
         try {
             const response = await axios.post(
-                'http://localhost:3001/api/projects/create',
+                `${import.meta.env.VITE_URI}/projects/create`,
                 { name: projectName, tasks },
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`, // Adjust if needed
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
                 }
             );
@@ -63,7 +63,6 @@ const CreateProject = () => {
             {error && <p className="text-red-500 text-sm text-center mb-4">{error}</p>}
 
             <form onSubmit={handleSubmit}>
-                {/* Project Name */}
                 <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-700" htmlFor="projectName">
                         Project Name
@@ -79,13 +78,13 @@ const CreateProject = () => {
                     />
                 </div>
 
-                {/* Tasks Section */}
+
                 <div>
                     {tasks.map((task, index) => (
                         <div key={index} className="mb-4">
                             <h3 className="text-xl font-semibold mb-2">Task {index + 1}</h3>
 
-                            {/* Task Title */}
+
                             <label className="block text-sm font-medium text-gray-700" htmlFor={`taskTitle-${index}`}>
                                 Task Title
                             </label>
@@ -98,7 +97,6 @@ const CreateProject = () => {
                                 placeholder="Task Title"
                             />
 
-                            {/* Task Description */}
                             <label className="block text-sm font-medium text-gray-700" htmlFor={`taskDescription-${index}`}>
                                 Task Description
                             </label>
@@ -110,7 +108,6 @@ const CreateProject = () => {
                                 placeholder="Task Description"
                             ></textarea>
 
-                            {/* Task Status */}
                             <label className="block text-sm font-medium text-gray-700" htmlFor={`taskStatus-${index}`}>
                                 Task Status
                             </label>
@@ -128,7 +125,6 @@ const CreateProject = () => {
                     ))}
                 </div>
 
-                {/* Add Task Button */}
                 <button
                     type="button"
                     onClick={addTask}
@@ -137,7 +133,6 @@ const CreateProject = () => {
                     Add Task
                 </button>
 
-                {/* Submit Button */}
                 <button
                     type="submit"
                     className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:bg-indigo-300"

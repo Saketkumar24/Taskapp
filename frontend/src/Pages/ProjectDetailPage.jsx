@@ -17,11 +17,10 @@ const ProjectDetails = () => {
     const [reload, setReload] = useState(false);
     const token = localStorage.getItem('token');
 
-    // Fetch project details
     useEffect(() => {
         const fetchProject = async () => {
             try {
-                const res = await axios.get(`http://localhost:3001/api/projects/${projectId}`, {
+                const res = await axios.get(`${import.meta.env.VITE_URI}/projects/${projectId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -40,12 +39,12 @@ const ProjectDetails = () => {
 
     const handleDeleteProject = async () => {
         try {
-            await axios.delete(`http://localhost:3001/api/projects/${projectId}`, {
+            await axios.delete(`${import.meta.env.VITE_URI}/projects/${projectId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            navigate('/dashboard'); // Go back to dashboard
+            navigate('/dashboard');
         } catch (err) {
             setError('Failed to delete project.');
             console.error('Failed to delete project:', err);
@@ -54,9 +53,9 @@ const ProjectDetails = () => {
 
     const updateTaskStatus = async (taskId, newStatus) => {
         try {
-            setTaskLoading(true); // Show loading state when updating task status
+            setTaskLoading(true);
             const res = await axios.patch(
-                `http://localhost:3001/api/projects/${projectId}/task/${taskId}/status`,
+                `${import.meta.env.VITE_URI}/projects/${projectId}/task/${taskId}/status`,
                 { status: newStatus }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -71,17 +70,17 @@ const ProjectDetails = () => {
                 ),
             }));
 
-            setTaskLoading(false); // Hide loading state
+            setTaskLoading(false);
         } catch (err) {
             setError('Failed to update task.');
-            setTaskLoading(false); // Hide loading state
+            setTaskLoading(false);
             console.error('Failed to update task:', err);
         }
     };
 
     const deleteTask = async (taskId) => {
         try {
-            await axios.delete(`http://localhost:3001/api/projects/${projectId}/task/${taskId}`, {
+            await axios.delete(`${import.meta.env.VITE_URI}/projects/${projectId}/task/${taskId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -106,7 +105,7 @@ const ProjectDetails = () => {
 
         try {
             const res = await axios.post(
-                `http://localhost:3001/api/projects/${projectId}/addtask`,
+                `${import.meta.env.VITE_URI}/projects/${projectId}/addtask`,
                 newTask,
                 {
                     headers: {
@@ -114,12 +113,11 @@ const ProjectDetails = () => {
                     },
                 }
             );
-            // Update the project state to include the new task
             tasks: [...(project.tasks || []), res.data.task],
 
                 setNewTask({ title: '', description: '', status: 'Not Started' });
             setReload(!reload);
-            navigate(`/project/${projectId}`); // Reset the form
+            navigate(`/project/${projectId}`);
         } catch (err) {
             setError('Failed to add task.');
             console.error('Failed to add task:', err);

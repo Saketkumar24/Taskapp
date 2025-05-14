@@ -10,7 +10,7 @@ const Dashboard = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/projects/all', {
+      const response = await fetch(`${import.meta.env.VITE_URI}/projects/all`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ const Dashboard = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/users/me', {
+      const response = await fetch(`${import.meta.env.VITE_URI}/users/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
